@@ -14,7 +14,7 @@
 <script>
 // Populate the daySelect with the last 7 days
 let select = document.getElementById('daySelect');
-for(let i = 0; i < 7; i++) {
+for(let i = 0; i < 2; i++) {
     let date = new Date();
     date.setDate(date.getDate() - i);
     let year = date.getFullYear();
@@ -37,11 +37,18 @@ function loadHtml() {
     let pair = document.getElementById('pairSelect').value;
 
     if(day && pair) {
-        fetch(`./${day}_plot_${pair}.html`)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('mainchart').innerHTML = data;
-            });
+        let iframe = document.createElement('iframe');
+        iframe.src = `./${day}_plot_${pair}.html`;
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.margin = '0';
+        iframe.style.padding = '0';
+        iframe.style.border = '0';
+        let mainchart = document.getElementById('mainchart');
+        mainchart.style.width = '100%';
+        mainchart.style.height = '100%';
+        mainchart.innerHTML = '';
+        mainchart.appendChild(iframe);
     }
 }
 
