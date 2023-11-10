@@ -1,0 +1,51 @@
+<!-- Add the select boxes -->
+<select id="daySelect">
+</select>
+
+<select id="pairSelect">
+    <option value="BTC-USD">BTC-USD</option>
+    <option value="ETH-BTC">ETH-BTC</option>
+</select>
+
+<!-- The div where the HTML files will be loaded -->
+<div id="mainchart">
+</div>
+
+<script>
+// Populate the daySelect with the last 7 days
+let select = document.getElementById('daySelect');
+for(let i = 0; i < 7; i++) {
+    let date = new Date();
+    date.setDate(date.getDate() - i);
+    let year = date.getFullYear();
+    let month = ("0" + (date.getMonth() + 1)).slice(-2); // Months are 0-based in JavaScript
+    let day = ("0" + date.getDate()).slice(-2);
+    let formattedDate = `${year}-${month}-${day}`;
+    let option = document.createElement('option');
+    option.text = formattedDate;
+    option.value = formattedDate;
+    select.add(option);
+}
+
+// Attach event listeners to the select boxes
+document.getElementById('daySelect').addEventListener('change', loadHtml);
+document.getElementById('pairSelect').addEventListener('change', loadHtml);
+
+// Function to load the HTML files
+function loadHtml() {
+    let day = document.getElementById('daySelect').value;
+    let pair = document.getElementById('pairSelect').value;
+
+    if(day && pair) {
+        fetch(`./${day}_plot_${pair}.html`)
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('mainchart').innerHTML = data;
+            });
+    }
+}
+
+// Load the current selection by default
+loadHtml();
+
+</script>
