@@ -1,58 +1,64 @@
-<!-- Add the select boxes -->
-<select id="daySelect">
-</select>
+<html>
+    <head>
+        <title>Prime Crypto Momentum Oscillator (Top 30 by market cap)</title>
+    </head>
+    <body style="background: rgb(17, 17, 17);">
+        <!-- Add the select boxes -->
+        <select id="daySelect"></select>
 
-<select id="pairSelect">
-    <option value="BTC-USD">BTC-USD</option>
-    <option value="ETH-BTC">ETH-BTC</option>
-</select>
+        <select id="pairSelect">
+            <option value="BTC-USD">BTC-USD</option>
+            <option value="ETH-BTC">ETH-BTC</option>
+        </select>
 
-<!-- The div where the HTML files will be loaded -->
-<div id="mainchart">
-</div>
+        <!-- The div where the HTML files will be loaded -->
+        <div id="mainchart">
+        </div>
 
-<script>
-// Populate the daySelect with the last 7 days
-let select = document.getElementById('daySelect');
-for(let i = 0; i < 3; i++) {
-    let date = new Date();
-    date.setDate(date.getDate() - i);
-    let year = date.getFullYear();
-    let month = ("0" + (date.getMonth() + 1)).slice(-2); // Months are 0-based in JavaScript
-    let day = ("0" + date.getDate()).slice(-2);
-    let formattedDate = `${year}-${month}-${day}`;
-    let option = document.createElement('option');
-    option.text = formattedDate;
-    option.value = formattedDate;
-    select.add(option);
-}
+        <script>
+        // Populate the daySelect with the last 7 days
+        let select = document.getElementById('daySelect');
+        for(let i = 0; i < 3; i++) {
+            let date = new Date();
+            date.setDate(date.getDate() - i);
+            let year = date.getFullYear();
+            let month = ("0" + (date.getMonth() + 1)).slice(-2); // Months are 0-based in JavaScript
+            let day = ("0" + date.getDate()).slice(-2);
+            let formattedDate = `${year}-${month}-${day}`;
+            let option = document.createElement('option');
+            option.text = formattedDate;
+            option.value = formattedDate;
+            select.add(option);
+        }
 
-// Attach event listeners to the select boxes
-document.getElementById('daySelect').addEventListener('change', loadHtml);
-document.getElementById('pairSelect').addEventListener('change', loadHtml);
+        // Attach event listeners to the select boxes
+        document.getElementById('daySelect').addEventListener('change', loadHtml);
+        document.getElementById('pairSelect').addEventListener('change', loadHtml);
 
-// Function to load the HTML files
-function loadHtml() {
-    let day = document.getElementById('daySelect').value;
-    let pair = document.getElementById('pairSelect').value;
+        // Function to load the HTML files
+        function loadHtml() {
+            let day = document.getElementById('daySelect').value;
+            let pair = document.getElementById('pairSelect').value;
 
-    if(day && pair) {
-        let iframe = document.createElement('iframe');
-        iframe.src = `./${day}_plot_${pair}.html`;
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.margin = '0';
-        iframe.style.padding = '0';
-        iframe.style.border = '0';
-        let mainchart = document.getElementById('mainchart');
-        mainchart.style.width = '100%';
-        mainchart.style.height = '100%';
-        mainchart.innerHTML = '';
-        mainchart.appendChild(iframe);
-    }
-}
+            if(day && pair) {
+                let iframe = document.createElement('iframe');
+                iframe.src = `./${day}_plot_${pair}.html`;
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.margin = '0';
+                iframe.style.padding = '0';
+                iframe.style.border = '0';
+                let mainchart = document.getElementById('mainchart');
+                mainchart.style.width = '100%';
+                mainchart.style.height = '100%';
+                mainchart.innerHTML = '';
+                mainchart.appendChild(iframe);
+            }
+        }
 
-// Load the current selection by default
-loadHtml();
+        // Load the current selection by default
+        loadHtml();
 
-</script>
+        </script>
+    </body>
+</html>
